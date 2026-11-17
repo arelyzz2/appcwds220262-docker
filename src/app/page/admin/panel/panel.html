@@ -1,0 +1,393 @@
+<!-- Barra superior con la campana y el usuario -->
+<app-admin-topbar />
+
+<div class="adm">
+  <!-- ============ MENÚ LATERAL ============ -->
+  <aside class="adm-side">
+    <!-- Logo y nombre del panel -->
+    <div class="adm-brand">
+      <span class="adm-logo">E</span>
+      <div>
+        <strong>EPIIS</strong>
+        <small>Panel administrativo</small>
+      </div>
+    </div>
+
+    <p class="adm-group">GESTIÓN</p>
+    <nav class="adm-nav">
+      <button type="button" class="adm-link" (click)="goLanding()">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-6h-4v6H4a1 1 0 0 1-1-1z"/></svg>
+        <span>Landing</span>
+      </button>
+      <!-- Botón Dashboard: resumen general de quejas y sugerencias -->
+      <button type="button" class="adm-link" [class.active]="tab === 'dashboard'" (click)="changeTab('dashboard')">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <!-- Botón Quejas -->
+      <button type="button" class="adm-link" [class.active]="tab === 'complaint'" (click)="changeTab('complaint')">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Quejas</span>
+      </button>
+      <!-- Botón Sugerencias -->
+      <button type="button" class="adm-link" [class.active]="tab === 'suggestion'" (click)="changeTab('suggestion')">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
+        <span>Sugerencias</span>
+      </button>
+      <!-- Botón Oficinas: abre el formulario para registrar oficinas -->
+      <button type="button" class="adm-link" [class.active]="tab === 'office'" (click)="changeTab('office')">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></svg>
+        <span>Oficinas</span>
+      </button>
+      <!-- Botón Docentes: abre el formulario para registrar docentes -->
+      <button type="button" class="adm-link" [class.active]="tab === 'professor'" (click)="changeTab('professor')">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        <span>Docentes</span>
+      </button>
+    </nav>
+
+    <!-- Cuadro de consejo al pie del menú -->
+    <div class="adm-tip">
+      <div class="adm-tip-head">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        <strong>Consejo</strong>
+      </div>
+      <p>
+        Responde primero lo que está en
+        <span class="adm-tip-tag"><i class="dot st-pend"></i>Pendiente de revisión</span>.
+        El estudiante lo ve en su seguimiento.
+      </p>
+    </div>
+  </aside>
+
+  <!-- ============ CONTENIDO ============ -->
+  <main class="adm-main">
+    <!-- Título de la página y migas de pan, según la pantalla elegida -->
+    <header class="adm-head">
+      <h1>{{ tab === 'dashboard' ? 'Dashboard' : tab === 'complaint' ? 'Quejas' : tab === 'suggestion' ? 'Sugerencias' : tab === 'office' ? 'Oficinas' : 'Docentes' }}</h1>
+      <p class="adm-crumb">Inicio / {{ tab === 'dashboard' ? 'Dashboard' : tab === 'complaint' ? 'Quejas' : tab === 'suggestion' ? 'Sugerencias' : tab === 'office' ? 'Oficinas' : 'Docentes' }}</p>
+    </header>
+
+    @if (tab === 'office') {
+      <!-- ============ REGISTRAR OFICINA ============ -->
+      <section class="adm-card adm-pad">
+        <h3 class="adm-title">Registrar oficina</h3>
+        <div class="adm-form">
+          <label class="adm-label-f" for="txtOffice">Nombre de la oficina*</label>
+          <input id="txtOffice" class="adm-input" placeholder="Ej. Dirección de Escuela" [formControl]="officeName" />
+          <div>
+            <button type="button" class="adm-btn" [disabled]="saving" (click)="saveOffice()">
+              {{ saving ? 'Guardando...' : 'Registrar oficina' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+    } @else if (tab === 'professor') {
+      <!-- ============ REGISTRAR DOCENTE ============ -->
+      <section class="adm-card adm-pad">
+        <h3 class="adm-title">Registrar docente</h3>
+        <div class="adm-form">
+          <label class="adm-label-f" for="txtFirst">Nombres*</label>
+          <input id="txtFirst" class="adm-input" [formControl]="profFirstName" />
+          <label class="adm-label-f" for="txtSur">Apellidos*</label>
+          <input id="txtSur" class="adm-input" [formControl]="profSurName" />
+          <label class="adm-label-f" for="txtMail">Correo*</label>
+          <input id="txtMail" class="adm-input" type="email" [formControl]="profEmail" />
+          <div>
+            <button type="button" class="adm-btn" [disabled]="saving" (click)="saveProfessor()">
+              {{ saving ? 'Guardando...' : 'Registrar docente' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+    } @else if (tab === 'dashboard') {
+      <!-- ============ DASHBOARD ============ -->
+
+      <!-- Banner con el total de casos por revisar -->
+      <section class="adm-hero">
+        <div class="adm-hero-text">
+          <p class="adm-hello">{{ greeting }}, {{ userName }}</p>
+          <h2>
+            Tienes <b>{{ dashboardComplaintPending + dashboardSuggestionPending }}</b>
+            casos por revisar
+          </h2>
+          <p class="adm-date">{{ today }}</p>
+        </div>
+        <span class="adm-orb orb1"></span>
+        <span class="adm-orb orb2"></span>
+        <span class="adm-orb orb3"></span>
+      </section>
+
+      <!-- Tarjetas con los totales y pendientes de quejas y sugerencias -->
+      <section class="adm-stats">
+        <div class="adm-stat s-total">
+          <small>Total de quejas</small>
+          <b>{{ complaints.length }}</b>
+          <span class="adm-sub">recibidas</span>
+        </div>
+        <div class="adm-stat s-total">
+          <small>Total de sugerencias</small>
+          <b>{{ suggestions.length }}</b>
+          <span class="adm-sub">recibidas</span>
+        </div>
+        <div class="adm-stat s-pend">
+          <small>Quejas pendientes</small>
+          <b>{{ dashboardComplaintPending }}</b>
+          <span class="adm-sub">por revisar</span>
+        </div>
+        <div class="adm-stat s-pend">
+          <small>Sugerencias pendientes</small>
+          <b>{{ dashboardSuggestionPending }}</b>
+          <span class="adm-sub">por revisar</span>
+        </div>
+      </section>
+
+      @if (loading && !dashboardLoaded) {
+        <p class="adm-info">Cargando...</p>
+      } @else if (errorMsg) {
+        <p class="adm-info adm-err">{{ errorMsg }}</p>
+        <button type="button" class="adm-btn" (click)="retryCurrentLoad()">Reintentar</button>
+      } @else {
+        <!-- Primeras 5 quejas -->
+        <section class="adm-card">
+          <h3 class="adm-title">Últimas quejas</h3>
+          <div class="adm-list">
+            @for (item of complaints; track item.code; let i = $index) {
+              @if (i < 5) {
+                <article class="adm-item">
+                  <div class="adm-who">
+                    <span class="adm-avatar">{{ (item.complaintFullName ?? item.fullName ?? '?').trim().slice(0, 1).toUpperCase() }}</span>
+                    <div>
+                      <b>{{ item.complaintFullName ?? item.fullName ?? '-' }}</b>
+                      <small>{{ item.code }}</small>
+                    </div>
+                  </div>
+                  <p class="adm-desc">{{ item.description }}</p>
+                  <span [class]="'adm-badge ' + (statusClasses[item.status] ?? 'st-pend')">{{ item.status }}</span>
+                </article>
+              }
+            }
+          </div>
+        </section>
+
+        <!-- Primeras 5 sugerencias -->
+        <section class="adm-card">
+          <h3 class="adm-title">Últimas sugerencias</h3>
+          <div class="adm-list">
+            @for (item of suggestions; track item.code; let i = $index) {
+              @if (i < 5) {
+                <article class="adm-item">
+                  <div class="adm-who">
+                    <span class="adm-avatar">{{ (item.complaintFullName ?? item.fullName ?? '?').trim().slice(0, 1).toUpperCase() }}</span>
+                    <div>
+                      <b>{{ item.complaintFullName ?? item.fullName ?? '-' }}</b>
+                      <small>{{ item.code }}</small>
+                    </div>
+                  </div>
+                  <p class="adm-desc">{{ item.description }}</p>
+                  <span [class]="'adm-badge ' + (statusClasses[item.status] ?? 'st-pend')">{{ item.status }}</span>
+                </article>
+              }
+            }
+          </div>
+        </section>
+      }
+
+    } @else if (!selected) {
+      <!-- ============ LISTA DE QUEJAS / SUGERENCIAS ============ -->
+
+      <!-- Banner con los casos por revisar -->
+      <section class="adm-hero">
+        <div class="adm-hero-text">
+          <p class="adm-hello">{{ greeting }}, {{ userName }}</p>
+          <h2>
+            Tienes <b>{{ pendingCount }}</b>
+            {{ tab === 'complaint'
+                ? (pendingCount === 1 ? 'queja' : 'quejas')
+                : (pendingCount === 1 ? 'sugerencia' : 'sugerencias') }}
+            por revisar
+          </h2>
+          <p class="adm-date">{{ today }}</p>
+        </div>
+        <span class="adm-orb orb1"></span>
+        <span class="adm-orb orb2"></span>
+        <span class="adm-orb orb3"></span>
+      </section>
+
+      <!-- Tarjetas de resumen (respetan el filtro de oficina) -->
+      <section class="adm-stats">
+        <div class="adm-stat s-total">
+          <small>Total recibidas</small>
+          <b>{{ items.length }}</b>
+          <span class="adm-sub">en esta sección</span>
+        </div>
+        <div class="adm-stat s-pend">
+          <small>Pendientes</small>
+          <b>{{ pendingCount }}</b>
+          <span class="adm-sub">{{ statusPercentages['Pendiente de revisión'] }}% del total</span>
+        </div>
+        <div class="adm-stat s-proc">
+          <small>En proceso</small>
+          <b>{{ inProgressCount }}</b>
+          <span class="adm-sub">{{ statusPercentages['Visto'] + statusPercentages['En coordinación'] }}% del total</span>
+        </div>
+        <div class="adm-stat s-done">
+          <small>Finalizados</small>
+          <b>{{ completedCount }}</b>
+          <span class="adm-sub">{{ statusPercentages['Cerrado'] + statusPercentages['Rechazado'] }}% del total</span>
+        </div>
+      </section>
+
+      <!-- Barra de colores con la distribución por estado -->
+      <section class="adm-dist">
+        <div class="adm-dist-top">
+          <h3>Estado de los casos</h3>
+          <span>{{ items.length }} en total</span>
+        </div>
+        <div class="adm-bar">
+          @for (s of statuses; track s) {
+            <span [class]="'seg ' + statusClasses[s]" [style.width.%]="statusPercentages[s]" [title]="s + ': ' + statusCounts[s]"></span>
+          }
+        </div>
+        <div class="adm-legend">
+          @for (s of statuses; track s) {
+            <span class="lg"><i [class]="'dot ' + statusClasses[s]"></i>{{ s }} · {{ statusCounts[s] }}</span>
+          }
+        </div>
+      </section>
+
+      <!-- Buscador, filtros y lista -->
+      <section class="adm-card">
+        <div class="adm-tools">
+          <div class="adm-searchbox">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="text" placeholder="Buscar por código, nombre o descripción" [formControl]="search" />
+          </div>
+          <span class="adm-count">{{ visibleItems.length }} resultados</span>
+        </div>
+
+        <!-- Desplegable para filtrar por oficina -->
+                <!-- Desplegable para filtrar por oficina (el servidor filtra) -->
+        <select class="adm-select" [value]="filterOffice" (change)="setOffice($any($event.target).value)">
+          <option value="">Todas las oficinas</option>
+          @for (o of officeList; track o.idOffice) {
+            <option [value]="o.idOffice">{{ o.name }}</option>
+          }
+        </select>
+
+        <!-- Botones para filtrar por estado -->
+        <div class="adm-chips">
+          <button type="button" class="chip" [class.on]="filterStatus === ''" (click)="setFilter('')">
+            Todos <i>{{ items.length }}</i>
+          </button>
+          @for (s of statuses; track s) {
+            <button type="button" class="chip" [class.on]="filterStatus === s" (click)="setFilter(s)">
+              <span [class]="'dot ' + statusClasses[s]"></span>{{ s }} <i>{{ statusCounts[s] }}</i>
+            </button>
+          }
+        </div>
+
+        @if (loading && !hasLoadedCurrentList) {
+          <p class="adm-info">Cargando...</p>
+        } @else if (errorMsg) {
+          <p class="adm-info adm-err">{{ errorMsg }}</p>
+          <button type="button" class="adm-btn" (click)="retryCurrentLoad()">Reintentar</button>
+        } @else if (visibleItems.length === 0) {
+          <div class="adm-empty">
+            <span>📭</span>
+            <p>No hay registros para mostrar.</p>
+          </div>
+        } @else {
+          <!-- Cada fila es un caso; al hacer clic se abre su detalle -->
+          <div class="adm-list">
+            @for (item of visibleItems; track item.code) {
+              @let nombre = item.complaintFullName ?? item.fullName ?? '-';
+              <article class="adm-item" tabindex="0"
+                       (click)="openDetail(item)" (keydown.enter)="openDetail(item)">
+                <div class="adm-who">
+                  <span class="adm-avatar">{{ nombre.trim().slice(0, 1).toUpperCase() }}</span>
+                  <div>
+                    <b>{{ nombre }}</b>
+                    <small>{{ item.code }}</small>
+                  </div>
+                </div>
+                <p class="adm-desc">{{ item.description }}</p>
+                <span [class]="'adm-badge ' + (statusClasses[item.status] ?? 'st-pend')">{{ item.status }}</span>
+                <span class="adm-go">Ver →</span>
+              </article>
+            }
+          </div>
+        }
+      </section>
+    } @else {
+      <!-- ============ DETALLE DE UN CASO ============ -->
+      @let nombreSel = selected.complaintFullName ?? selected.fullName ?? '-';
+
+      <!-- Botón para volver a la lista -->
+      <button type="button" class="adm-back" (click)="closeDetail()">← Volver a la lista</button>
+
+      <!-- Cabecera del caso: avatar, código y estado actual -->
+      <section class="adm-dhead">
+        <span class="adm-avatar big">{{ nombreSel.trim().slice(0, 1).toUpperCase() }}</span>
+        <div class="adm-dinfo">
+          <p class="adm-label">{{ tab === 'complaint' ? 'Queja' : 'Sugerencia' }}</p>
+          <h2>{{ selected.code }}</h2>
+          <p class="adm-from">Enviada por <b>{{ nombreSel }}</b></p>
+        </div>
+        <span [class]="'adm-badge big ' + (statusClasses[selected.status] ?? 'st-pend')">{{ selected.status }}</span>
+      </section>
+
+      <div class="adm-detail">
+        <!-- Columna izquierda: descripción y cambio de estado -->
+        <section class="adm-card adm-pad">
+          <h3 class="adm-title">Descripción</h3>
+          <p class="adm-quote">{{ selected.description }}</p>
+
+          <h3 class="adm-title adm-gap">Cambiar estado</h3>
+          <div class="adm-steps">
+            @for (s of statuses; track s) {
+              <button type="button" [class]="'step ' + statusClasses[s]"
+                      [class.sel]="newStatus === s" (click)="newStatus = s">
+                <span class="dot"></span>
+                <span>{{ s }}</span>
+                @if (selected.status === s) { <em>actual</em> }
+              </button>
+            }
+          </div>
+          <div class="adm-save">
+            <button type="button" class="adm-btn" [disabled]="savingStatus || newStatus === selected.status" (click)="saveStatus()">
+              {{ savingStatus ? 'Guardando...' : 'Guardar estado' }}
+            </button>
+            @if (newStatus !== selected.status) {
+              <small>Cambio sin guardar: <b>{{ newStatus }}</b></small>
+            }
+          </div>
+        </section>
+
+                <!-- Columna derecha: conversación con el estudiante (quejas y sugerencias) -->
+        <section class="adm-card adm-pad">
+          <h3 class="adm-title">Conversación</h3>
+
+          <div class="adm-msgs">
+            @if (messages.length === 0) {
+              <div class="adm-empty small">
+                <span>💬</span>
+                <p>Todavía no hay mensajes.</p>
+              </div>
+            }
+            @for (m of messages; track $index) {
+              <div class="adm-msg">{{ m.text }}</div>
+            }
+          </div>
+
+          <textarea class="adm-area" rows="3" placeholder="Escribe una respuesta para el estudiante..." [formControl]="replyCtrl"></textarea>
+          <button type="button" class="adm-btn" [disabled]="sendingReply" (click)="sendReply()">
+            {{ sendingReply ? 'Enviando...' : 'Enviar respuesta' }}
+          </button>
+        </section>
+      </div>
+    }
+  </main>
+</div>

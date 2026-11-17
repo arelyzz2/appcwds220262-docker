@@ -1,0 +1,176 @@
+.reg-wrap {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 16px;
+	overflow-y: auto;
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	background:
+		radial-gradient(circle at 15% 10%, rgba(6, 182, 212, 0.45), transparent 50%),
+		radial-gradient(circle at 90% 90%, rgba(79, 70, 229, 0.45), transparent 50%),
+		linear-gradient(160deg, #0c2430 0%, #0b1a2b 100%);
+}
+
+.reg-orb {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+.o1 {
+	width: 320px;
+	height: 320px;
+	left: -100px;
+	bottom: -120px;
+	background: rgba(34, 211, 238, 0.1);
+}
+.o2 {
+	width: 140px;
+	height: 140px;
+	right: 12%;
+	top: 10%;
+	border: 3px solid rgba(255, 255, 255, 0.12);
+}
+
+.reg-card {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 420px;
+	background: #fff;
+	border-radius: 22px;
+	padding: 32px 30px;
+	box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	animation: reg-rise 0.5s ease both;
+}
+
+.reg-logo {
+	align-self: flex-start;
+	margin-bottom: 10px;
+	padding: 6px 14px;
+	border-radius: 10px;
+	color: #fff;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+	font-size: 13px;
+	background: linear-gradient(135deg, #06b6d4, #4f46e5);
+	box-shadow: 0 8px 20px rgba(6, 182, 212, 0.35);
+}
+
+.reg-card h2 {
+	margin: 0;
+	font-size: 24px;
+	color: #0f172a;
+}
+
+.reg-sub {
+	margin: 0 0 12px;
+	color: #64748b;
+	font-size: 14px;
+}
+
+.reg-card label {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #334155;
+	margin-top: 8px;
+}
+
+.reg-card input {
+	padding: 12px 14px;
+	border: 1px solid #dbe3e6;
+	border-radius: 12px;
+	background: #f8fafc;
+	font-size: 14px;
+	color: #0f172a;
+	transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.reg-card input::placeholder {
+	color: #a3b0b7;
+}
+.reg-card input:focus {
+	outline: 0;
+	background: #fff;
+	border-color: #22d3ee;
+	box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.22);
+}
+/* Evita el fondo azul que pone Chrome al autocompletar */
+.reg-card input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 100px #f8fafc inset;
+	-webkit-text-fill-color: #0f172a;
+}
+
+.reg-error {
+	color: #dc2626;
+	font-size: 12px;
+}
+
+.reg-msg {
+	margin: 10px 0 0;
+	padding: 10px 14px;
+	border-radius: 12px;
+	font-size: 13.5px;
+}
+.reg-ok {
+	color: #15803d;
+	background: #dcfce7;
+}
+.reg-bad {
+	color: #b91c1c;
+	background: #fee2e2;
+}
+
+.reg-submit {
+	margin-top: 16px;
+	padding: 13px 16px;
+	border: none;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #0891b2, #0e7490);
+	color: #fff;
+	cursor: pointer;
+	font-size: 15px;
+	font-weight: 700;
+	box-shadow: 0 8px 20px rgba(8, 145, 178, 0.35);
+	transition: transform 0.15s, box-shadow 0.15s;
+}
+.reg-submit:hover:not(:disabled) {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgba(8, 145, 178, 0.4);
+}
+.reg-submit:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+.reg-foot {
+	margin: 14px 0 0;
+	font-size: 13px;
+	color: #475569;
+	text-align: center;
+}
+.reg-link {
+	border: 0;
+	padding: 0;
+	background: none;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 700;
+	color: #0891b2;
+}
+.reg-link:hover {
+	text-decoration: underline;
+}
+
+@keyframes reg-rise {
+	from { opacity: 0; transform: translateY(14px); }
+	to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.reg-wrap * { animation: none !important; transition: none !important; }
+}

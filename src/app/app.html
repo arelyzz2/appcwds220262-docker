@@ -1,0 +1,74 @@
+
+<p-toast></p-toast>
+<p-confirmdialog></p-confirmdialog>
+
+<div class="layout-container">
+
+    <header class="layout-topbar">
+
+        <div class="topbar-left">
+            <a routerLink="/" class="app-logo">
+                EPIIS
+            </a>
+        </div>
+
+        <nav class="topbar-menu" aria-label="Menú principal">
+
+            @for (item of menuOptions; track item.id) {
+                <a
+                    [routerLink]="item.route"
+                    routerLinkActive="active-menu"
+                    [routerLinkActiveOptions]="{ exact: item.route === '/' }">
+
+                    <i
+                        [class]="'pi pi-' + item.icon"
+                        aria-hidden="true">
+                    </i>
+
+                    <span>{{ item.text }}</span>
+                </a>
+            }
+
+        </nav>
+
+        <div class="topbar-right">
+
+            @if (isLoggedIn) {
+
+                <p-button
+                    icon="pi pi-bell"
+                    [text]="true"
+                    severity="contrast"
+                    [badge]="notifCount > 0 ? (notifCount > 99 ? '99+' : '' + notifCount) : undefined"
+                    badgeSeverity="danger"
+                    ariaLabel="Notificaciones"
+                    (onClick)="goNotifications()">
+                </p-button>
+
+                <app-profile-card
+                    [session]="session"
+                    (logout)="logout()">
+                </app-profile-card>
+
+            } @else {
+
+                <p-button
+                    label="Ingresar"
+                    icon="pi pi-sign-in"
+                    size="small"
+                    (onClick)="goLogin()">
+                </p-button>
+
+            }
+
+        </div>
+
+    </header>
+
+    <main class="layout-main">
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+
+</div>

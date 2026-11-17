@@ -1,0 +1,76 @@
+<div class="reg-wrap">
+	<span class="reg-orb o1"></span>
+	<span class="reg-orb o2"></span>
+
+	<form class="reg-card" [formGroup]="form" (ngSubmit)="submit()" novalidate autocomplete="off">
+		<span class="reg-logo">EPIIS</span>
+		<h2>Registro de estudiantes</h2>
+		<p class="reg-sub">Usa tu correo institucional.</p>
+
+		<label for="firstName">Nombres</label>
+		<input
+			id="firstName"
+			type="text"
+			name="reg-first-nofill"
+			formControlName="firstName"
+			autocomplete="off"
+			placeholder="Ej. María Fernanda" />
+		@if (form.controls.firstName.touched && form.controls.firstName.invalid) {
+			<small class="reg-error">Ingresa tus nombres.</small>
+		}
+
+		<label for="surName">Apellidos</label>
+		<input
+			id="surName"
+			type="text"
+			name="reg-last-nofill"
+			formControlName="surName"
+			autocomplete="off"
+			placeholder="Ej. Lima Estrada" />
+		@if (form.controls.surName.touched && form.controls.surName.invalid) {
+			<small class="reg-error">Ingresa tus apellidos.</small>
+		}
+
+		<label for="email">Correo institucional</label>
+		<input
+			id="email"
+			type="text"
+			inputmode="email"
+			name="reg-mail-nofill"
+			formControlName="email"
+			autocomplete="off"
+			readonly
+			(focus)="$any($event.target).removeAttribute('readonly')"
+			placeholder="usuario@unamba.edu.pe" />
+		@if (form.controls.email.touched && form.controls.email.invalid) {
+			<small class="reg-error">Ingresa un correo válido.</small>
+		}
+
+		<label for="password">Contraseña</label>
+		<input
+			id="password"
+			type="password"
+			name="reg-pass-nofill"
+			formControlName="password"
+			autocomplete="new-password"
+			readonly
+			(focus)="$any($event.target).removeAttribute('readonly')"
+			placeholder="Mínimo 6 caracteres" />
+		@if (form.controls.password.touched && form.controls.password.invalid) {
+			<small class="reg-error">Mínimo 6 caracteres.</small>
+		}
+
+		@for (m of messages; track $index) {
+			<p class="reg-msg" [class.reg-ok]="ok" [class.reg-bad]="!ok">{{ m }}</p>
+		}
+
+		<button type="submit" class="reg-submit" [disabled]="sending">
+			{{ sending ? 'Registrando...' : 'Registrarme' }}
+		</button>
+
+		<p class="reg-foot">
+			¿Ya tienes cuenta?
+			<button type="button" class="reg-link" (click)="goLogin()">Inicia sesión</button>
+		</p>
+	</form>
+</div>
